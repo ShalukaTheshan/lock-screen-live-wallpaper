@@ -14,13 +14,18 @@ The app lives in the system tray. Double-click the tray icon to open Settings.
 
 ## Build & run
 
-Requires the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
+The .NET 8 SDK is installed locally in `.dotnet\` (not on C:). `build.ps1` uses it and keeps the NuGet caches and temp files inside this folder too:
 
 ```powershell
-dotnet run --project src/LockScreenLive
-# or a self-contained build:
-dotnet publish src/LockScreenLive -c Release -r win-x64 --self-contained -o publish
+.\build.ps1            # build
+.\build.ps1 run        # build and run
+.\build.ps1 publish    # self-contained app in .\publish  ->  run publish\LockScreenLive.exe
 ```
+
+To reinstall the local SDK: `.\.tools\dotnet-install.ps1 -Channel 8.0 -InstallDir .\.dotnet -NoPath`
+(download the script from https://dot.net/v1/dotnet-install.ps1 if `.tools\` is gone).
+
+Note: the exe under `src\...\bin\` is framework-dependent. It only starts when `DOTNET_ROOT` points to `.dotnet\`, which `build.ps1 run` sets for you. Use the `publish\` build for normal use.
 
 Video playback uses [LibVLC](https://www.videolan.org/vlc/libvlc.html) through LibVLCSharp. It ships with the app, so any common codec works, with hardware decoding.
 

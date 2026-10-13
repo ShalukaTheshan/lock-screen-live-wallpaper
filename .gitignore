@@ -4,3 +4,10 @@ obj/
 *.user
 *.suo
 publish/
+
+# Local SDK, caches and temp kept inside the project folder (see build.ps1)
+.dotnet/
+.nuget/
+.dotnet-home/
+.tools/
+.tmp/

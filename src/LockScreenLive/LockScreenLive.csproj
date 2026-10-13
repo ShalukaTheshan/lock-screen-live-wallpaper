@@ -12,6 +12,8 @@
     <RootNamespace>LockScreenLive</RootNamespace>
     <AssemblyName>LockScreenLive</AssemblyName>
     <Version>0.1.0</Version>
+    <!-- The DPI settings in app.manifest are for WPF; the WinForms analyzer doesn't apply here. -->
+    <NoWarn>$(NoWarn);WFAC010</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +25,8 @@
   <ItemGroup>
     <PackageReference Include="LibVLCSharp.WPF" Version="3.9.0" />
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.21" />
+    <!-- LibVLCSharp pulls this in for its WinUI player; this is a WPF app, and its build targets break unpackaged builds. -->
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" ExcludeAssets="all" />
   </ItemGroup>
 
 </Project>
