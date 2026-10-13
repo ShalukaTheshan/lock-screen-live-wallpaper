@@ -1,0 +1,139 @@
+<Window x:Class="LockScreenLive.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Lock Screen Live — Settings"
+        Width="640"
+        SizeToContent="Height"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Segoe UI Variable Text, Segoe UI"
+        FontSize="13"
+        Background="#F3F3F3">
+    <Window.Resources>
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="0,0,0,12" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="BorderBrush" Value="#D6D6D6" />
+            <Setter Property="Background" Value="White" />
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="0,4" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="4,3" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="14,5" />
+            <Setter Property="MinWidth" Value="90" />
+        </Style>
+        <Style x:Key="Hint" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#666" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+    </Window.Resources>
+
+    <DockPanel Margin="16">
+        <Grid DockPanel.Dock="Bottom" Margin="0,4,0,0">
+            <Button Content="Test now" HorizontalAlignment="Left" Click="OnTestNow"
+                    ToolTip="Show the live lock screen with these settings. Any input then locks Windows." />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Save" IsDefault="True" Click="OnSave" Margin="0,0,8,0" />
+                <Button Content="Cancel" IsCancel="True" />
+            </StackPanel>
+        </Grid>
+
+        <StackPanel>
+            <GroupBox Header="Video">
+                <StackPanel>
+                    <DockPanel>
+                        <Button DockPanel.Dock="Right" Content="Browse…" Click="OnBrowse" Margin="8,0,0,0" />
+                        <TextBox x:Name="VideoPathBox"
+                                 Text="{Binding VideoPath, UpdateSourceTrigger=PropertyChanged}"
+                                 LostFocus="OnPreviewInputChanged" />
+                    </DockPanel>
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="240" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Background="#202020" Height="135" CornerRadius="4">
+                            <Grid>
+                                <Image x:Name="PreviewImage" Stretch="UniformToFill" />
+                                <TextBlock x:Name="PreviewStatus" Foreground="#BBB" HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Margin="8" />
+                            </Grid>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="14,0,0,0">
+                            <CheckBox Content="Set the Windows lock screen image to a frame of this video"
+                                      IsChecked="{Binding SyncLockImage}" />
+                            <StackPanel Orientation="Horizontal" Margin="20,4,0,0">
+                                <TextBlock Text="Frame at" VerticalAlignment="Center" />
+                                <TextBox Width="60" Margin="6,0"
+                                         Text="{Binding LockImageFrameSeconds}"
+                                         LostFocus="OnPreviewInputChanged" />
+                                <TextBlock Text="seconds" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <TextBlock Style="{StaticResource Hint}" Margin="20,6,0,0"
+                                       Text="This is what you see after the video, when you sign in. Turn off Windows Spotlight in Settings › Personalization › Lock screen so it sticks." />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="When to show it">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="After idle for" VerticalAlignment="Center" />
+                    <TextBox Grid.Column="1" Width="60" Margin="8,3" Text="{Binding IdleMinutes}" />
+                    <TextBlock Grid.Column="2" Text="minutes (0 = never)" VerticalAlignment="Center" />
+
+                    <TextBlock Grid.Row="1" Text="Hotkey" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Width="140" Margin="8,3" IsReadOnly="True"
+                             Text="{Binding Hotkey}"
+                             PreviewKeyDown="OnHotkeyKeyDown"
+                             GotKeyboardFocus="OnHotkeyFocus" LostKeyboardFocus="OnHotkeyBlur"
+                             ToolTip="Click, then press a key combination (with Ctrl, Alt, Shift or Win). Backspace clears it." />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource Hint}" VerticalAlignment="Center"
+                               Text="Use instead of Win+L to lock with the video" />
+
+                    <TextBlock Grid.Row="2" Text="Lock for real after" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Width="60" Margin="8,3" Text="{Binding MaxOverlayMinutes}" />
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="minutes of video (lets the display sleep)" VerticalAlignment="Center" />
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Header="Don't start automatically when">
+                <StackPanel>
+                    <CheckBox Content="A full-screen app, game, or presentation is running" IsChecked="{Binding SkipWhenFullscreen}" />
+                    <CheckBox Content="An app is keeping the display on (e.g. video playback)" IsChecked="{Binding SkipWhenDisplayRequired}" />
+                    <CheckBox Content="Running on battery" IsChecked="{Binding SkipOnBattery}" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Display">
+                <WrapPanel>
+                    <CheckBox Content="Show clock" IsChecked="{Binding ShowClock}" Margin="0,4,24,4" />
+                    <CheckBox Content="Mute" IsChecked="{Binding Muted}" Margin="0,4,24,4" />
+                    <CheckBox Content="All monitors" IsChecked="{Binding AllMonitors}" Margin="0,4,24,4" />
+                    <CheckBox Content="Fill screen (crop)" IsChecked="{Binding FillScreen}" Margin="0,4,24,4" />
+                    <CheckBox Content="Start with Windows" IsChecked="{Binding StartWithWindows}" Margin="0,4,24,4" />
+                </WrapPanel>
+            </GroupBox>
+
+            <TextBlock Style="{StaticResource Hint}" Margin="2,0,2,8"
+                       Text="The video is a visual layer. The first key press, click, or mouse movement locks Windows for real, and the normal sign-in screen protects your PC." />
+        </StackPanel>
+    </DockPanel>
+</Window>
