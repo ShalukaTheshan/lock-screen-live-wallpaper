@@ -23,6 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Michroma (SIL OFL 1.1) is the default font of the Day Spaced widget; the licence ships with it. -->
+    <Resource Include="Fonts\*.ttf" />
+    <None Include="Fonts\OFL.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="LibVLCSharp.WPF" Version="3.9.0" />
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.21" />
     <!-- LibVLCSharp pulls this in for its WinUI player; this is a WPF app, and its build targets break unpackaged builds. -->

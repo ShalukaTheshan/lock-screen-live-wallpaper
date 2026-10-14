@@ -1,0 +1,16 @@
+<widgets:WidgetBase x:Class="LockScreenLive.Views.Widgets.Windows11ClockWidget"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:widgets="clr-namespace:LockScreenLive.Views.Widgets">
+    <StackPanel>
+        <TextBlock x:Name="TimeText"
+                   FontWeight="SemiBold"
+                   FontSize="128"
+                   HorizontalAlignment="Center" />
+        <TextBlock x:Name="DateText"
+                   FontWeight="Medium"
+                   FontSize="26"
+                   Margin="0,-10,0,0"
+                   HorizontalAlignment="Center" />
+    </StackPanel>
+</widgets:WidgetBase>

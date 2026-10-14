@@ -4,6 +4,7 @@ using LibVLCSharp.Shared;
 using LockScreenLive.Models;
 using LockScreenLive.Native;
 using LockScreenLive.Services;
+using LockScreenLive.Views.Widgets;
 using MediaPlayer = LibVLCSharp.Shared.MediaPlayer;
 
 namespace LockScreenLive.Views;
@@ -31,7 +32,7 @@ public partial class VideoLockWindow : Window
         Top = bounds.Top;
         Width = bounds.Width;
         Height = bounds.Height;
-        Clock.Visibility = settings.ShowClock ? Visibility.Visible : Visibility.Collapsed;
+        Widget.Options = WidgetOptions.From(settings);
 
         SourceInitialized += OnSourceInitialized;
         Loaded += OnLoaded;

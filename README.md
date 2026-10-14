@@ -29,6 +29,22 @@ Note: the exe under `src\...\bin\` is framework-dependent. It only starts when `
 
 Video playback uses [LibVLC](https://www.videolan.org/vlc/libvlc.html) through LibVLCSharp. It ships with the app, so any common codec works, with hardware decoding.
 
+## Widgets & fonts
+
+In Settings › **Widget**, pick a widget from the cards. Each card shows that widget drawn on a frame of your video, and the big preview shows exactly what the lock screen will look like.
+
+| Widget | Looks like |
+|---|---|
+| None | Just the video |
+| Windows 11 | Large time with the date below, like the real lock screen |
+| Day Spaced | A wide, spaced-out day name (**THURSDAY**) with the date and time below |
+
+You can change the **font**, **size**, **position**, **color** and **24-hour time**.
+
+- Day Spaced uses the bundled **Michroma** font by default (© The Michroma Project Authors, SIL Open Font License 1.1, see `src/LockScreenLive/Fonts/OFL.txt`).
+- For the classic look, use **Anurati**. It's free for personal use, so it isn't bundled. Install it, then pick it from the Font list, or click **Load font file…** and choose the `.otf`/`.ttf`. Loaded fonts are copied to `%AppData%\LockScreenLive\fonts`.
+- The widget only shows on the video. After the first input, the real Windows lock screen shows its own clock, which apps can't restyle.
+
 ## Tips
 
 - Turn off **Windows Spotlight** (Settings › Personalization › Lock screen › choose *Picture*), or it will replace the synced image.

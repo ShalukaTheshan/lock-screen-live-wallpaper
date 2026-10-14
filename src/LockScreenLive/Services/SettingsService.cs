@@ -1,12 +1,17 @@
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using LockScreenLive.Models;
 
 namespace LockScreenLive.Services;
 
 internal static class SettingsService
 {
-    private static readonly JsonSerializerOptions Options = new() { WriteIndented = true };
+    private static readonly JsonSerializerOptions Options = new()
+    {
+        WriteIndented = true,
+        Converters = { new JsonStringEnumConverter() },
+    };
 
     public static AppSettings Load()
     {
